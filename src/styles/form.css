@@ -1,8 +1,0 @@
-.container-form{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.container-form > input{
-    border: none;
-}
