@@ -14,6 +14,7 @@ function App() {
 const [todoList, setTodoList] = useState(null);
 const [filterData, setFilterData] = useState(null);
 const [stateFilter, setStateFilter] = useState("all");
+// const [changeBtn, setChangeBtne] = useState(null);  
 
 
 //effect
@@ -26,15 +27,45 @@ useEffect(()=>{
      const resultTodilist = result.slice(0,20);
      setFilterData(resultTodilist);
      setTodoList(resultTodilist);
-     
+
   };
   handleTodoList();
-  
 },[]);
 
-//function
-const handleCompleteTodo = (id) =>{
 
+
+//function
+
+const handleFilter = (fil)  => { // "all" "completed" "reser"
+  // console.log(fil)
+  if(fil === "all"){
+    setStateFilter(fil);
+    setFilterData(todoList);
+  }
+  else if(fil === "completed"){
+console.log("aca estoy")
+    setStateFilter(fil);
+    setFilterData(
+      todoList.filter(filtro =>
+        filtro.completed === false )
+        )
+
+  }
+      else if(fil === "reset"){
+        setStateFilter(fil);
+        setFilterData(
+          todoList.filter(filtro =>
+            filtro.completed === true )
+            )
+          }
+  }
+
+
+const handleCompleteTodo = (id,status) =>{
+  // setChangeBtne(true)
+  console.log(todoList)
+  console.log(filterData)
+  // console.log(changeBtn);
   setTodoList (
     todoList.map(todo => 
     todo.id === id ? {...todo, completed: !todo.completed}: todo
@@ -42,65 +73,56 @@ const handleCompleteTodo = (id) =>{
   );
 
   setFilterData (
-    filterData.map(todo => 
-    todo.id === id ? {...todo, completed: !todo.completed}: todo
-    )
-  );
-  };
+    filterData.filter(todo => todo.status === status ))
+  
+  handleFilter("completed")
+  
+}  
 
-//function filter
 
-const handleFilter = (fil)  => { // "all" "completed" "reser"
-
-  if(fil === "all"){
-    setStateFilter(fil);
-    setFilterData(todoList);
-  }
-  else if(fil === "completed"){
-    
-    setStateFilter(fil);
-    setFilterData(
-      todoList.filter(filtro => 
-        filtro.completed === false )
-      )
-
-  }
-  else if(fil === "reset"){
-    setStateFilter(fil);
-    setFilterData(
-      todoList.filter(filtro => 
-        filtro.completed === true )
-      )
-  }
-  }
-
-useEffect(() => {
-handleFilter(stateFilter)
-}, [todoList]);
 
   return (
-    <div> 
+    <div>
     <Header/>
+    
     <Filter
       handleFilter={handleFilter}
       focoState={stateFilter}
     />
-    <Form 
+
+    <Form
     />
 
 {filterData && filterData.length > 0 ? (
+        
       filterData.map(singleTodo => (
         <Todo
         key={singleTodo.id}
         title={singleTodo.title}
         status={singleTodo.completed}
-         handleCompleteTodo={handleCompleteTodo}
+        handleCompleteTodo={handleCompleteTodo}
         id={singleTodo.id}
+        
           />
       ))
     ) : (
       <Loader/>
     )}
+
+{/*
+    {todoList && todoList.length > 0 ? (
+      todoList.map(singleTodo => (
+        <Todo
+        key={singleTodo.id}
+        title={singleTodo.title}
+        status={singleTodo.completed}
+        handleCompleteTodo={handleCompleteTodo}
+        id={singleTodo.id}
+          />
+      ))
+    ) : (
+      <Loader/>
+    )} */}
     </div>
   );
 }

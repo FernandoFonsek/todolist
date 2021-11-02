@@ -1,0 +1,17 @@
+.btn-container{
+    display: flex;
+    justify-content:space-between;
+    margin: 1rem 2rem;
+}
+
+button{
+    background-color: #ede6e3;
+}
+/* button:focus{
+    background-color: aqua;
+} */
+.all,
+.completed,
+.reset{
+    background-color: #cac1bd;
+}

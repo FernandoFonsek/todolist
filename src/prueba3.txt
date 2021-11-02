@@ -33,7 +33,10 @@ useEffect(()=>{
 },[]);
 
 //function
-const handleCompleteTodo = (id) =>{
+const handleCompleteTodo = (id, status) =>{
+  // // console.log(event.target.classList.value)
+  // console.log(event.target.classList.value)
+   console.log(status);
 
   setTodoList (
     todoList.map(todo => 
@@ -46,12 +49,28 @@ const handleCompleteTodo = (id) =>{
     todo.id === id ? {...todo, completed: !todo.completed}: todo
     )
   );
+
+
+  // setFilterData(filterData.filter(todo => todo.completed))
+
+  // console.log("filter handletodo",filterData)
+//  if(event.target.classList.value==="reset" && stateFilter ==="completed" ){
+//   console.log("completed") 
+//   handleFilter("completed")
+   
+//  }
+//  else if(event.target.classList.value==="completed" && stateFilter ==="reset"){
+//   handleFilter("reset")
+// }
+
   };
+  // console.log("filter",filterData)
+  // console.log("todo",todoList)
 
 //function filter
 
 const handleFilter = (fil)  => { // "all" "completed" "reser"
-
+  // console.log(fil)
   if(fil === "all"){
     setStateFilter(fil);
     setFilterData(todoList);
@@ -63,7 +82,9 @@ const handleFilter = (fil)  => { // "all" "completed" "reser"
       todoList.filter(filtro => 
         filtro.completed === false )
       )
-
+      // console.log("hizo el if")
+      // console.log("filter",filterData)
+      // console.log("todo",todoList)
   }
   else if(fil === "reset"){
     setStateFilter(fil);
@@ -73,18 +94,25 @@ const handleFilter = (fil)  => { // "all" "completed" "reser"
       )
   }
   }
-
+  // console.log("filter",filterData)
+  // console.log("todo",todoList)
 useEffect(() => {
-handleFilter(stateFilter)
-}, [todoList]);
+
+
+}, [filterData]);
+  
+
+
 
   return (
     <div> 
     <Header/>
+   
     <Filter
       handleFilter={handleFilter}
       focoState={stateFilter}
     />
+    
     <Form 
     />
 
@@ -101,6 +129,21 @@ handleFilter(stateFilter)
     ) : (
       <Loader/>
     )}
+
+{/* 
+    {todoList && todoList.length > 0 ? (
+      todoList.map(singleTodo => (
+        <Todo
+        key={singleTodo.id}
+        title={singleTodo.title}
+        status={singleTodo.completed}
+        handleCompleteTodo={handleCompleteTodo}
+        id={singleTodo.id}
+          />
+      ))
+    ) : (
+      <Loader/>
+    )} */}
     </div>
   );
 }
